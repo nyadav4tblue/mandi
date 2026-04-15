@@ -8,8 +8,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Do not use output: "export" — this app needs server routes (/auth/callback), middleware,
-  // and Supabase SSR. Static export breaks Vercel builds and auth.
+  // Keep default Next server build (no static site export) so /auth/callback, middleware, and Supabase work on Vercel.
 }
 
 export default nextConfig
