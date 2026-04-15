@@ -39,13 +39,19 @@ export default function SignUpPage() {
     }
 
     const supabase = createClient()
+    // NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL is for local dev only (e.g. fixed tunnel URL).
+    // If it were set to localhost on Vercel, confirmation emails would link to localhost.
+    const emailRedirectTo =
+      process.env.NODE_ENV === 'development' &&
+      process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL?.trim()
+        ? process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL.trim()
+        : `${window.location.origin}/auth/callback`
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo:
-          process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ??
-          `${window.location.origin}/auth/callback`,
+        emailRedirectTo,
         data: {
           full_name: fullName,
           phone: phone || null,
