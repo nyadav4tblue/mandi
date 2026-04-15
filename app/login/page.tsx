@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { isSupabaseConfigured } from '@/lib/supabase/env'
+import { useSupabaseReady } from '@/hooks/use-supabase-ready'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,9 +13,8 @@ import { Spinner } from '@/components/ui/spinner'
 import { Leaf } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
-const supabaseReady = isSupabaseConfigured()
-
 export default function LoginPage() {
+  const supabaseReady = useSupabaseReady()
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -66,7 +65,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {!supabaseReady && (
+          {supabaseReady === false && (
             <Alert variant="destructive" className="mb-4">
               <AlertTitle>Supabase not configured</AlertTitle>
               <AlertDescription className="space-y-2 text-left">
@@ -104,6 +103,9 @@ export default function LoginPage() {
               </AlertDescription>
             </Alert>
           )}
+          {supabaseReady === null && (
+            <p className="text-sm text-muted-foreground mb-4 text-center">Checking configuration…</p>
+          )}
           <form onSubmit={handleLogin}>
             <FieldGroup>
               <Field>
@@ -134,7 +136,7 @@ export default function LoginPage() {
               <p className="text-sm text-destructive mt-4">{error}</p>
             )}
 
-            <Button type="submit" className="w-full mt-6" disabled={loading || !supabaseReady}>
+            <Button type="submit" className="w-full mt-6" disabled={loading || supabaseReady !== true}>
               {loading ? <Spinner className="mr-2" /> : null}
               {loading ? 'Signing in...' : 'Sign in'}
             </Button>
