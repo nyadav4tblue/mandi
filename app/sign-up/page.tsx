@@ -81,37 +81,27 @@ export default function SignUpPage() {
           {supabaseReady === false && (
             <Alert variant="destructive" className="mb-4">
               <AlertTitle>Supabase not configured</AlertTitle>
-              <AlertDescription className="space-y-2 text-left">
-                <span className="block">
-                  Add <code className="text-xs">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
-                  <code className="text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> from{' '}
-                  <a
-                    href="https://supabase.com/dashboard/project/_/settings/api"
-                    className="underline font-medium"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Supabase → Project Settings → API
-                  </a>
-                  .
-                </span>
-                <span className="block text-muted-foreground">
-                  <strong className="text-foreground">Local:</strong> put them in{' '}
-                  <code className="text-xs">.env.local</code> and restart{' '}
-                  <code className="text-xs">npm run dev</code>.
-                </span>
-                <span className="block text-muted-foreground">
-                  <strong className="text-foreground">Vercel:</strong>{' '}
-                  <a
-                    href="https://vercel.com/docs/projects/environment-variables"
-                    className="underline font-medium"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Project → Settings → Environment Variables
-                  </a>
-                  , scope to <strong>Production</strong>, then <strong>Redeploy</strong>.
-                </span>
+              <AlertDescription className="text-left text-sm">
+                Set <code className="text-xs">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
+                <code className="text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> from{' '}
+                <a
+                  href="https://supabase.com/dashboard/project/_/settings/api"
+                  className="underline font-medium"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Supabase API settings
+                </a>
+                . Local: <code className="text-xs">.env.local</code> then restart dev. Vercel:{' '}
+                <a
+                  href="https://vercel.com/docs/projects/environment-variables"
+                  className="underline font-medium"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Environment Variables
+                </a>{' '}
+                for Production → <strong>Redeploy</strong>.
               </AlertDescription>
             </Alert>
           )}

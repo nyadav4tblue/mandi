@@ -3,6 +3,11 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { getSupabaseAnonKey, getSupabaseUrl, isSupabaseConfigured } from './env'
 
 export async function updateSession(request: NextRequest) {
+  // Config probe must not run session/auth logic (and avoids Edge quirks on this path).
+  if (request.nextUrl.pathname.startsWith('/api/config/')) {
+    return NextResponse.next()
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
