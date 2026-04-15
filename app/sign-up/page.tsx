@@ -33,7 +33,7 @@ export default function SignUpPage() {
 
     if (!supabaseReady) {
       setError(
-        'Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to .env.local (see your Supabase project API settings).',
+        'Supabase env vars are missing. Locally: .env.local. On Vercel: Environment Variables for Production, then Redeploy.',
       )
       setLoading(false)
       return
@@ -82,19 +82,37 @@ export default function SignUpPage() {
           {!supabaseReady && (
             <Alert variant="destructive" className="mb-4">
               <AlertTitle>Supabase not configured</AlertTitle>
-              <AlertDescription>
-                Create <code className="text-xs">.env.local</code> in the project root with{' '}
-                <code className="text-xs">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
-                <code className="text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> from{' '}
-                <a
-                  href="https://supabase.com/dashboard/project/_/settings/api"
-                  className="underline font-medium"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Project Settings → API
-                </a>
-                , then restart the dev server.
+              <AlertDescription className="space-y-2 text-left">
+                <span className="block">
+                  Add <code className="text-xs">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
+                  <code className="text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> from{' '}
+                  <a
+                    href="https://supabase.com/dashboard/project/_/settings/api"
+                    className="underline font-medium"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Supabase → Project Settings → API
+                  </a>
+                  .
+                </span>
+                <span className="block text-muted-foreground">
+                  <strong className="text-foreground">Local:</strong> put them in{' '}
+                  <code className="text-xs">.env.local</code> and restart{' '}
+                  <code className="text-xs">npm run dev</code>.
+                </span>
+                <span className="block text-muted-foreground">
+                  <strong className="text-foreground">Vercel:</strong>{' '}
+                  <a
+                    href="https://vercel.com/docs/projects/environment-variables"
+                    className="underline font-medium"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Project → Settings → Environment Variables
+                  </a>
+                  , scope to <strong>Production</strong>, then <strong>Redeploy</strong>.
+                </span>
               </AlertDescription>
             </Alert>
           )}
